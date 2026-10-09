@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>S404 — Станислав Албедов, веб-разработчик</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#050208;--fg:#ffffff;--mut:rgba(255,244,248,.80);--acc:#ff2d63;--panel:rgba(3,1,6,.62);--line:rgba(255,45,99,.34);
+--head-h:56px;--sec-y:clamp(50px,7.5vh,88px);--sec-gap:clamp(40px,6vw,72px)}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;text-transform:uppercase;letter-spacing:.28em;font-size:11px}
+#sky{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0;background:#050208}
+main{position:relative;z-index:1}
+section{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:var(--sec-y) 24px;max-width:1040px;margin:0 auto}
+main > section + section{border-top:1px solid var(--line);padding-top:var(--sec-gap);margin-top:var(--sec-gap);min-height:0}
+header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:16px 24px;background:linear-gradient(var(--bg),transparent)}
+header a{color:var(--fg);text-decoration:none}
+#prog{position:fixed;top:calc(env(safe-area-inset-top,0px) + var(--head-h));left:0;height:2px;width:100%;z-index:6;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,rgba(255,31,90,.15),var(--acc) 55%,#ff8fb0);box-shadow:0 0 12px rgba(255,31,90,.75);pointer-events:none;will-change:transform}
+#prog::after{content:"";position:absolute;right:0;top:-2px;width:26px;height:6px;border-radius:50%;background:var(--acc);filter:blur(6px);opacity:.85}
+@media(prefers-reduced-motion:no-preference){[data-reveal]{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1)}[data-reveal].in{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){#prog{transition:none}}
+nav{display:flex;gap:20px}nav a{color:var(--mut);transition:color .2s}nav a:hover{color:var(--acc)}
+.logo{font-weight:700;letter-spacing:.1em;font-size:15px}.logo b{color:var(--acc)}
+h1{font-size:clamp(44px,9vw,92px);line-height:.95;letter-spacing:-.03em;margin:16px 0 20px;font-weight:700}
+h1 span{color:var(--acc)}
+h2{font-size:clamp(28px,5vw,44px);margin:0 0 18px;letter-spacing:-.02em}
+.lead{max-width:520px;color:var(--mut);font-size:17px}
+.eyebrow{color:var(--acc)}
+.btn{display:inline-block;margin:32px 12px 0 0;padding:12px 22px;border:1px solid var(--acc);background:rgba(255,31,90,.1);color:var(--fg);text-decoration:none;transition:.2s}
+.btn:hover{background:var(--acc);color:var(--bg)}.btn.ghost{border-color:var(--line)}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:rgba(3,1,6,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line);padding:22px}
+.card h3{margin:0 0 8px;font-size:18px}.card p{margin:0;color:var(--mut);font-size:15px}
+.card .n{color:var(--acc);display:block;margin-bottom:10px}
+.tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.tags span{padding:6px 12px;border:1px solid var(--line);background:rgba(3,1,6,.78);font-size:13px}
+.about{background:rgba(3,1,6,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line);padding:26px;max-width:640px;color:var(--mut)}
+.about b{color:var(--fg)}
+footer{position:relative;z-index:1;text-align:center;padding:24px;color:var(--mut)}
+a:focus-visible,.btn:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+@media(max-width:600px){nav{display:none}:root{--sec-y:46px;--sec-gap:36px}section{padding:var(--sec-y) 20px}}
+@media(max-width:700px){.card,.about{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(3,1,6,.9)}}
+@media(prefers-reduced-motion:reduce){.btn,.card,.about,.tags span{transition:none}}
+</style>
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+<div id="prog" aria-hidden="true"></div>
+<header class="mono">
+  <a class="logo" href="#top">S<b>404</b></a>
+  <nav><a href="#about">Обо мне</a><a href="#services">Услуги</a><a href="#process">Процесс</a><a href="#contact">Контакты</a></nav>
+</header>
+<main id="top">
+  <section>
+    <p class="mono eyebrow" data-reveal>✦ фриланс · веб-разработка</p>
+    <h1 data-reveal>Сайты, которые<br>не уходят в <span>404</span>.</h1>
+    <p class="lead" data-reveal>Я Станислав Албедов, он же S404. Начинающий разработчик: делаю аккуратные, быстрые и адаптивные сайты для небольшого бизнеса и частных проектов.</p>
+    <div data-reveal><a class="btn mono" href="#contact">Обсудить проект →</a><a class="btn ghost mono" href="#services">Что умею</a></div>
+  </section>
+
+  <section id="about">
+    <h2 data-reveal>Обо мне</h2>
+    <div class="about" data-reveal>
+      <p><b>Начинаю путь во фрилансе</b> и честно говорю об этом: у меня мало кейсов, зато много внимания к деталям и желания сделать работу хорошо.</p>
+      <p>Беру небольшие проекты, объясняю всё простым языком, не пропадаю и сдаю в срок. Если чего-то не знаю — разберусь, а не буду делать вид.</p>
+    </div>
+    <div class="tags mono" style="letter-spacing:.12em" data-reveal><span>HTML</span><span>CSS</span><span>JavaScript</span><span>TypeScript</span><span>React</span><span>Tailwind CSS</span><span>Git</span><span>Figma</span></div>
+  </section>
+
+  <section id="services">
+    <h2 data-reveal>Что я делаю</h2>
+    <div class="grid">
+      <div class="card" data-reveal><span class="n mono">01</span><h3>Сайт-визитка</h3><p>Одностраничник о вас или вашем деле: понятный, быстрый, с контактами и формой связи.</p></div>
+      <div class="card" data-reveal style="transition-delay:.08s"><span class="n mono">02</span><h3>Лендинг</h3><p>Страница под одну цель — заявки, запись или продажа. Чёткая структура и призыв к действию.</p></div>
+      <div class="card" data-reveal style="transition-delay:.16s"><span class="n mono">03</span><h3>Вёрстка по макету</h3><p>Pixel-perfect перенос дизайна из Figma в адаптивный код для любых экранов.</p></div>
+      <div class="card" data-reveal style="transition-delay:.24s"><span class="n mono">04</span><h3>Правки и доработка</h3><p>Починю, ускорю и обновлю существующий сайт: мелкие задачи и доработки.</p></div>
+    </div>
+  </section>
+
+  <section id="process">
+    <h2 data-reveal>Как мы работаем</h2>
+    <div class="grid">
+      <div class="card" data-reveal><span class="n mono">шаг 1</span><h3>Бриф</h3><p>Обсуждаем задачу, сроки и бюджет. Без сложных терминов.</p></div>
+      <div class="card" data-reveal style="transition-delay:.08s"><span class="n mono">шаг 2</span><h3>Прототип</h3><p>Показываю структуру и дизайн до того, как писать код.</p></div>
+      <div class="card" data-reveal style="transition-delay:.16s"><span class="n mono">шаг 3</span><h3>Разработка</h3><p>Делаю сайт и регулярно показываю промежуточный результат.</p></div>
+      <div class="card" data-reveal style="transition-delay:.24s"><span class="n mono">шаг 4</span><h3>Запуск</h3><p>Публикую сайт, проверяю на устройствах и передаю доступы.</p></div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <p class="mono eyebrow" data-reveal>✦ на связи</p>
+    <h2 data-reveal>Давайте сделаем ваш сайт</h2>
+    <p class="lead" data-reveal>Расскажите коротко о задаче — отвечу в течение дня.</p>
+    <div data-reveal><a class="btn mono" href="mailto:hello@s404.dev">hello@s404.dev →</a><a class="btn ghost mono" href="https://t.me/s404" rel="noopener">Telegram @s404</a></div>
+  </section>
+</main>
+<footer class="mono" style="font-size:10px">© 2026 S404 · Stanislav Albedov</footer>
+
+<script>
+/* === UI: полоса прогресса скролла + появление блоков === */
+(function(){
+var doc=document.documentElement,bar=document.getElementById("prog"),
+reduce=matchMedia("(prefers-reduced-motion: reduce)").matches,pending=false,last=-1;
+function paint(){
+  pending=false;
+  var max=doc.scrollHeight-innerHeight;
+  var p=max>0?Math.min(Math.max(scrollY/max,0),1):0;
+  if(p===last)return;last=p;
+  bar.style.transform="scaleX("+p.toFixed(4)+")";
+}
+addEventListener("scroll",function(){if(!pending){pending=true;requestAnimationFrame(paint);}},{passive:true});
+addEventListener("resize",function(){if(!pending){pending=true;requestAnimationFrame(paint);}},{passive:true});
+var items=document.querySelectorAll("[data-reveal]");
+if(reduce||!("IntersectionObserver" in window)){
+  for(var i=0;i<items.length;i++)items[i].classList.add("in");
+}else{
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(!e.isIntersecting)return;e.target.classList.add("in");io.unobserve(e.target);});
+  },{rootMargin:"0px 0px -8% 0px",threshold:.1});
+  for(var j=0;j<items.length;j++)io.observe(items[j]);
+}
+paint();
+})();
+</script>
+
+<script>
+(function(){
+var c=document.getElementById("sky");
+var gl=c.getContext("webgl2",{antialias:false,alpha:false,depth:false});
+if(!gl)return;
+var VS="#version 300 es\nvoid main(){vec2 p=vec2(float((gl_VertexID<<1)&2),float(gl_VertexID&2));gl_Position=vec4(p*2.0-1.0,0.0,1.0);}";
+var MOBILE=innerWidth<700,OCT=MOBILE?3:5,NORM=MOBILE?".875":".96875";
+var FS="#version 300 es\nprecision highp float;\n#define OCT "+OCT+"\n#define NORM "+NORM+"\n"+
+"uniform vec2 uRes;uniform float uDpr,uTime,uPx,uOn,uScroll,uNeb;uniform vec2 uPtr,uLook;out vec4 frag;\n"+
+"float h12(vec2 p){vec3 q=fract(vec3(p.xyx)*.1031);q+=dot(q,q.yzx+33.33);return fract((q.x+q.y)*q.z);}\n"+
+"float vn(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h12(i),h12(i+vec2(1,0)),f.x),mix(h12(i+vec2(0,1)),h12(i+vec2(1,1)),f.x),f.y);}\n"+
+"float fbm(vec2 p){float s=0.,a=.5;mat2 r=mat2(.8,-.6,.6,.8);for(int i=0;i<OCT;i++){s+=a*vn(p);p=r*p*2.03+17.1;a*=.5;}return s/NORM;}\n"+
+"float bay(vec2 c){vec2 m=mod(c,4.);int i=int(m.x)+int(m.y)*4;int b[16]=int[16](0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5);return(float(b[i])+.5)/16.;}\n"+
+"const vec3 VO=vec3(.015,.01,.028),HZ=vec3(.10,.13,.31),DU=vec3(.34,.13,.42),WI=vec3(.40,.05,.22),CR=vec3(.60,.05,.21),HO=vec3(.60,.07,.20),ST=vec3(.965,.886,.91);\n"+
+"vec3 ramp(float d,vec3 hz){vec3 c=mix(VO,hz,smoothstep(0.,.22,d));c=mix(c,WI,smoothstep(.18,.44,d));c=mix(c,CR,smoothstep(.42,.72,d));return mix(c,HO,smoothstep(.7,.96,d));}\n"+
+"vec3 field(vec2 pos,vec2 rc){float ms=min(rc.x,rc.y);vec2 uv=(pos-.5*rc)/ms;vec2 p=uv*1.7+uLook*.14-vec2(0.,uNeb);\n"+
+" vec2 tp=pos-uPtr;float lamp=exp(-dot(tp,tp)/(170.*170.))*uOn;p+=tp/ms*lamp*.3*1.7;\n"+
+" float t=uTime*.035;vec2 q=vec2(fbm(p+vec2(0,t*.7)),fbm(p+vec2(5.2,1.3)-t*.5));float n=fbm(p+2.2*q+vec2(t*.4,-t*.25));\n"+
+" vec2 dir=vec2(cos(1.05),sin(1.05));float al=dot(uv,dir);float ac=dot(uv,vec2(-dir.y,dir.x))-.42-.22*sin(al*2.3+t*3.)-(q.x-.5)*.35;float rv=exp(-ac*ac/(.34*.34));\n"+
+" float raw=n+rv*.25;float d=smoothstep(.40,1.06,raw);d=clamp(d+lamp*.18,0.,1.);\n"+
+" float hz=smoothstep(.25,.75,n+rv*.25)*.8;float tone=fbm(p*.45+vec2(11,-3)+t*.2);return vec3(d,hz,tone);}\n"+
+"void main(){vec2 rc=uRes/uDpr;vec2 css=gl_FragCoord.xy/uDpr;float px=uPx;\n"+
+" vec3 g=field(css,rc);vec3 hc=mix(HZ,DU,smoothstep(.30,.70,g.z));float dq=clamp(g.x,0.,1.);float hq=clamp(g.y,0.,1.);\n"+
+" vec3 bg=mix(VO,hc,hq*.85);bg=mix(bg,ramp(dq*.95,hc)*.52,smoothstep(0.,.34,dq));\n"+
+" vec3 dc=dq<.01?mix(VO,hc,.30+hq*.6):ramp(min(dq+.14,1.),hc);vec3 col=mix(bg,dc,smoothstep(0.,.88,dq));\n"+
+" for(int l=0;l<3;l++){float fl=float(l);float dp=.3+fl*.4;float gp=px*(l==2?2.:1.);vec2 sp=css+floor(uLook*dp*28.)+vec2(0.,-uScroll*dp*210.+uTime*1.2*dp);vec2 id=floor(sp/gp);vec2 fr=fract(sp/gp)-.5;\n"+
+"  float pr=(l==0?.017:l==1?.026:.019);float h=h12(id+fl*71.3);if(h>1.-pr){float h2=h12(id*1.7+3.1+fl);float tw=.45+.55*(.5+.5*sin(uTime*1.4*(.6+h2*2.5)+h2*40.));float rr=l==2?.42:.26+h2*.22;float m=step(length(fr),rr);\n"+
+"   if(l==2){float rl=1.-smoothstep(0.,.055,abs(fr.x));float rv2=1.-smoothstep(0.,.055,abs(fr.y));float reach=1.-smoothstep(0.,.52,length(fr));m=max(m,max(rl,rv2)*reach*.9);}\n"+
+"   vec3 sc=(l==0||h2>.82)?ST:HO;col=mix(col,sc*tw,m*tw*(1.-g.x*.55));}}\n"+
+" vec2 vu=gl_FragCoord.xy/uRes-.5;col*=1.-.5*smoothstep(.35,.95,length(vu*vec2(uRes.x/uRes.y,1.)*1.1));\n"+
+" col+=(h12(css+7.7)-.5)*.010;frag=vec4(max(col,vec3(0.)),1.);}";
+function sh(t,s){var o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS)){console.error(gl.getShaderInfoLog(o));return null;}return o;}
+var vs=sh(gl.VERTEX_SHADER,VS),fs=sh(gl.FRAGMENT_SHADER,FS);if(!vs||!fs)return;
+var pr=gl.createProgram();gl.attachShader(pr,vs);gl.attachShader(pr,fs);gl.linkProgram(pr);
+if(!gl.getProgramParameter(pr,gl.LINK_STATUS)){console.error(gl.getProgramInfoLog(pr));return;}
+gl.useProgram(pr);gl.bindVertexArray(gl.createVertexArray());
+var U={};["uRes","uDpr","uTime","uPx","uOn","uPtr","uLook","uScroll","uNeb"].forEach(function(n){U[n]=gl.getUniformLocation(pr,n);});
+var mq=matchMedia("(prefers-reduced-motion: reduce)"),W=1,H=1,dpr=1;
+var rzT=0;
+function size(){var r=c.getBoundingClientRect();W=Math.max(1,Math.round(r.width));H=Math.max(1,Math.round(r.height));dpr=Math.min(devicePixelRatio||1,W<700?1:1.5);c.width=Math.floor(W*dpr);c.height=Math.floor(H*dpr);gl.viewport(0,0,c.width,c.height);}
+size();
+addEventListener("resize",function(){clearTimeout(rzT);rzT=setTimeout(function(){size();if(mq.matches)draw();},160);},{passive:true});
+addEventListener("orientationchange",function(){setTimeout(function(){size();if(mq.matches)draw();},280);});
+var tx=.5,ty=.5,lx=.5,ly=.5,on=0,seen=-99,t0=performance.now(),last=0,sy=0,syS=0;
+function now(){return mq.matches?14:(performance.now()-t0)/1000;}
+addEventListener("scroll",function(){sy=scrollY/(innerHeight||1);},{passive:true});
+addEventListener("pointermove",function(e){tx=e.clientX/W;ty=1-e.clientY/H;seen=now();});
+addEventListener("pointerdown",function(e){if(e.target.closest("a,button"))return;tx=e.clientX/W;ty=1-e.clientY/H;seen=now();});
+function draw(){var t=now(),dt=Math.min(Math.max(t-last,0),.1);last=t;
+ var idle=t-seen>6,wx=idle?.5+.32*Math.sin(t*.13)+.1*Math.sin(t*.046+1.3):tx,wy=idle?.5+.26*Math.cos(t*.1)+.12*Math.cos(t*.032+4.2):ty;
+ var k=mq.matches?1:1-Math.exp(-dt*(idle?1.5:7));lx+=(wx-lx)*k;ly+=(wy-ly)*k;
+ syS+=(sy-syS)*(mq.matches?1:1-Math.exp(-dt*11));
+ on+=((mq.matches?0:idle?.55:1)-on)*(1-Math.exp(-dt*3));
+ gl.uniform2f(U.uRes,c.width,c.height);gl.uniform1f(U.uDpr,c.width/W);gl.uniform1f(U.uTime,t);gl.uniform1f(U.uPx,W<600?4:5);
+ gl.uniform1f(U.uOn,on);gl.uniform2f(U.uPtr,lx*W,ly*H);gl.uniform2f(U.uLook,(lx-.5)*2,(ly-.5)*2);
+ gl.uniform1f(U.uScroll,syS);
+ gl.uniform1f(U.uNeb,scrollY*1.7/Math.max(Math.min(W,H),1));
+ gl.drawArrays(gl.TRIANGLES,0,3);}
+function loop(){draw();if(!mq.matches&&!document.hidden)requestAnimationFrame(loop);}
+document.addEventListener("visibilitychange",function(){if(!document.hidden&&!mq.matches)requestAnimationFrame(loop);});
+draw();if(!mq.matches)requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
