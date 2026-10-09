@@ -3,23 +3,237 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>S404 — Станислав Албедов, веб-разработчик</title>
+<title>Станислав Албедов — s404</title>
 <style>
+:root{/* === НАСТРОЙКИ ПОЯВЛЕНИЯ ПРЕВЬЮ БУРМАЛДЫ ===
+     --frame-at: когда окно начинает проявляться (0 = сразу вместе с лампой, 1 = в самом конце)
+     --frame-k: насколько быстро оно проявляется (больше = резче) */
+--frame-at:.45;--frame-k:2.5;
+/* заголовок «$ ls projects/»: --h2-at — когда начинает появляться, --h2-k — насколько быстро */
+--h2-at:.2;--h2-k:1.6;
+--d:.5s;--t:3.2s;--e:cubic-bezier(.3,.5,.4,1);--bg:#020617;--c:#22d3ee;--c2:#06b6d4;--cr:34,211,238;--hi:#67e8f9;--t1:#cbd5e1;--t2:#64748b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+
+*{box-sizing:border-box;margin:0}
+html,body{background:var(--bg);color:var(--t1);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace}
+.page{min-height:100svh;display:flex;flex-direction:column;align-items:center;padding:0 20px 0}
+
+/* верхний блок */
+.top{opacity:clamp(0,calc((var(--p) - .3)*1.5),1);position:relative;width:100%;max-width:60rem;height:9.5rem;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:1.8rem;text-align:center}
+.grid{position:absolute;inset:0 -20px;background-image:linear-gradient(rgba(var(--cr),.07) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--cr),.07) 1px,transparent 1px);background-size:36px 36px;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 40%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 40%,transparent)}
+.big404{position:absolute;top:-.5rem;left:50%;transform:translateX(-50%);font-size:clamp(7rem,28vw,15rem);font-weight:800;line-height:1;letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1px rgba(var(--cr),.22);user-select:none;-webkit-mask-image:linear-gradient(to bottom,#000 30%,transparent 90%);mask-image:linear-gradient(to bottom,#000 30%,transparent 90%)}
+.term{position:relative;font-size:.95rem;color:var(--t2)}
+.term b{color:var(--c);font-weight:500}
+.term .typed{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:bottom;color:var(--t1);width:0;border-right:2px solid var(--c);animation:type 1.4s 2.2s steps(9) forwards,blink .8s 3.7s step-end infinite}
+@keyframes type{to{width:9ch}}
+@keyframes blink{50%{border-color:transparent}}
+.status{position:relative;margin-top:.9rem;display:inline-flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--t2);padding:.3rem .8rem;border:1px solid #1e293b;border-radius:999px;background:rgba(2,6,23,.7)}
+.status i{width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 0 0 rgba(52,211,153,.6);animation:ping 2s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 8px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+
+/* лампа */
+.lamp{position:relative;width:100%;height:16rem;display:flex;justify-content:center;isolation:isolate;overflow:hidden}
+.beam{position:absolute;top:0;height:14rem;width:30rem;opacity:calc(.004 + var(--p));transform:scale(calc(.5 + .5*var(--p)),calc(.43 + .57*var(--p)));will-change:transform,opacity}
+.beam.l{right:50%;transform-origin:100% 0;background:conic-gradient(from 70deg at center top,var(--c2),transparent,transparent)}
+.beam.r{left:50%;transform-origin:0 0;background:conic-gradient(from 290deg at center top,transparent,transparent,var(--c2))}
+.beam i{position:absolute;z-index:2}
+.l .a{left:0;bottom:0;width:100%;height:10rem;background:linear-gradient(to top,var(--bg),transparent)}
+.l .b{left:0;bottom:0;width:10rem;height:100%;background:linear-gradient(to right,var(--bg),transparent)}
+.r .a{right:0;bottom:0;width:100%;height:10rem;background:linear-gradient(to top,var(--bg),transparent)}
+.r .b{right:0;bottom:0;width:10rem;height:100%;background:linear-gradient(to left,var(--bg),transparent)}
+.glow{position:absolute;top:-1rem;left:50%;transform:translateX(-50%);width:28rem;max-width:90vw;height:6rem;border-radius:50%;background:var(--c2);opacity:calc(.003 + .5*var(--p));will-change:opacity;filter:blur(48px);z-index:3}
+.glow2{position:absolute;top:-2rem;left:50%;transform:translateX(-50%) scaleX(calc(.5 + .5*var(--p)));will-change:transform,opacity;width:16rem;opacity:calc(.004 + var(--p));height:6rem;border-radius:50%;background:var(--c);filter:blur(32px);z-index:3}
+.line{position:absolute;top:0;left:50%;transform:translateX(-50%) scaleX(calc(.5 + .5*var(--p)));height:2px;width:30rem;opacity:calc(.004 + var(--p));max-width:100%;will-change:transform,opacity;background:var(--c);box-shadow:0 0 24px var(--c);z-index:4;}
+@keyframes beamgrow{from{opacity:0;width:15rem;height:6rem}to{opacity:1;width:30rem;height:14rem}}
+@keyframes grow{from{opacity:0;width:15rem}to{opacity:1;width:30rem}}
+@keyframes grow2{from{width:8rem;opacity:0}to{width:16rem;opacity:1}}
+@keyframes glowin{from{opacity:0}to{opacity:.5}}
+@keyframes light{from{-webkit-mask-position:50% 100%;mask-position:50% 100%}to{-webkit-mask-position:50% 0%;mask-position:50% 0%}}
+@keyframes lit{from{opacity:0;filter:brightness(.3)}to{opacity:1;filter:none}}
+
+/* карточка */
+.card{position:relative;z-index:5;width:100%;max-width:38rem;margin-top:-12rem;text-align:center}
+.card>h1{opacity:clamp(0,calc((var(--p) - .1)*2.2),1)}
+.card>.win{opacity:clamp(0,calc((var(--p) - .24)*2.2),1)}
+.card>.cta{opacity:clamp(0,calc((var(--p) - .44)*2.5),1)}
+.card>.hint{opacity:clamp(0,calc((var(--p) - .52)*2.5),1)}
+.s1.off *{animation-play-state:paused}
+.eyebrow{font-size:.85rem;color:var(--t2)}
+.eyebrow b{color:var(--c);font-weight:500}
+h1{margin-top:0;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:clamp(1.4rem,6.6vw,3.1rem);white-space:nowrap;line-height:1.05;font-weight:700;letter-spacing:-.05em;padding-bottom:.08em;background:linear-gradient(100deg,#64748b 0%,#e2e8f0 25%,var(--hi) 50%,#e2e8f0 75%,#64748b 100%);background-size:200% 100%;background-repeat:repeat-x;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 7s linear infinite}
+h1 em{font-style:normal;display:inline;font-weight:300;letter-spacing:.02em}
+@keyframes shine{from{background-position:0% 0}to{background-position:200% 0}}
+.cta{margin-top:1.6rem;display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 1.6rem;border-radius:10px;background:var(--c);color:#022;font-weight:600;font-size:.95rem;text-decoration:none;box-shadow:0 0 40px rgba(var(--cr),.35);transition:.25s}
+.cta .cur{width:.55em;height:1.1em;background:#022;animation:blink2 1s step-end infinite}
+@keyframes blink2{50%{opacity:0}}
+.cta:hover{transform:scale(1.05);box-shadow:0 0 60px rgba(var(--cr),.55)}
+.foot{margin-top:2.5rem;font-size:.78rem;color:var(--t2)}
+
+.win{margin-top:1.8rem;text-align:left;border:1px solid #1e293b;border-radius:14px;background:rgba(11,18,36,.75);box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 40px rgba(var(--cr),.06);overflow:hidden;font-size:.92rem;line-height:1.8}
+.win .bar{display:flex;align-items:center;gap:.4rem;padding:.6rem .9rem;border-bottom:1px solid #1e293b;background:rgba(2,6,23,.6);font-size:.75rem;color:var(--t2)}
+.win .bar i{width:10px;height:10px;border-radius:50%;background:#334155}
+.win .bar i:first-child{background:rgba(var(--cr),.7)}
+.win .bar span{margin-left:.5rem}
+.win .body{padding:1rem 1.2rem 1.2rem;overflow-x:auto}
+.win p{color:var(--t1)}
+.win p.o{color:var(--t2);padding-left:1.3rem}
+.win p.g{margin-top:.8rem}
+.win .p{color:var(--c);margin-right:.5rem}
+.win b{color:var(--hi);font-weight:500}
+.win ul{list-style:none;padding:0 0 0 1.3rem;color:var(--t2)}
+.win li{transition:.2s}
+.win li:hover{color:#e2e8f0;transform:translateX(4px)}
+
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+.hint{display:inline-block;margin-top:2rem;font-size:.85rem;color:var(--t2);text-decoration:none;transition:.2s}
+.hint:hover{color:var(--c)}
+.hint b{color:var(--c);font-weight:500;display:inline-block;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(4px)}}
+.port{position:relative;width:100%;margin-top:2rem;padding-bottom:1.5rem;min-height:calc(100svh - 9rem);scroll-margin-top:9rem;display:flex;flex-direction:column;align-items:center}
+.pc{position:relative;z-index:5;width:100%;max-width:44rem;margin-top:-12rem}
+.pc>h2{opacity:clamp(0,calc((var(--p) - var(--h2-at))*var(--h2-k)),1)}
+.pc>.frame{opacity:clamp(0,calc((var(--p) - var(--frame-at))*var(--frame-k)),1)}
+.pc>.meta{opacity:clamp(0,calc((var(--p) - .46)*2.5),1)}
+.pc>.soon{opacity:clamp(0,calc((var(--p) - .56)*2.5),1)}
+.pc>.foot{opacity:clamp(0,calc((var(--p) - .62)*2.5),1)}
+.pc .eyebrow{text-align:center}
+.pc h2{margin-top:0;text-align:center;font-size:clamp(1.3rem,5vw,1.9rem);font-weight:500;letter-spacing:-.01em;color:#e2e8f0}
+.pc h2 span{color:var(--c);margin-right:.6rem}
+.frame{margin-top:1.2rem;border:1px solid #1e293b;border-radius:14px;overflow:hidden;background:#050208;box-shadow:0 20px 60px rgba(0,0,0,.45),0 0 50px rgba(var(--cr),.1)}
+.frame .bar2{display:flex;align-items:center;gap:.4rem;padding:.55rem .9rem;background:rgba(2,6,23,.9);border-bottom:1px solid #1e293b}
+.frame .bar2 i{width:10px;height:10px;border-radius:50%;background:#334155}
+.frame .bar2 i:first-child{background:rgba(var(--cr),.7)}
+.frame .url{flex:1;margin-left:.6rem;padding:.2rem .8rem;border-radius:6px;background:#0b1224;font-size:.72rem;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.view{position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;background:#050208}
+.view iframe{position:absolute;top:0;left:0;width:1280px;height:800px;border:0;transform-origin:0 0;pointer-events:none;opacity:.004;transition:opacity .9s ease}
+.port.done .view iframe{opacity:1;filter:none}
+.meta{margin-top:1rem;display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:end;text-align:left}
+.meta h3{font-size:1.05rem;font-weight:600;color:#e2e8f0}
+.meta p{margin-top:.3rem;font-size:.85rem;line-height:1.6;color:var(--t2)}
+.tags{margin-top:.7rem;display:flex;flex-wrap:wrap;gap:.4rem}
+.tags span{font-size:.72rem;padding:.2rem .6rem;border:1px solid rgba(var(--cr),.3);border-radius:999px;color:var(--c);background:rgba(var(--cr),.06)}
+.meta .cta{margin-top:0;white-space:nowrap}
+.soon{margin-top:1rem;text-align:center;font-size:.8rem;color:var(--t2)}
+.soon b{color:var(--hi);font-weight:500}
+.port .foot{margin-top:1.2rem}
+
+.ld{position:absolute;inset:0;z-index:2;background:#070310;transition:opacity .9s .1s ease,visibility 0s 1s}
+.port.done .ld{opacity:0;visibility:hidden}
+.sk{position:absolute;border-radius:6px;background:rgba(var(--cr),.14);animation:skp 1.6s ease-in-out infinite}
+@keyframes skp{50%{opacity:.35}}
+@keyframes sh{from{background-position:120% 0}to{background-position:-120% 0}}
+.sk.a{top:7%;left:5%;width:14%;height:4%}.sk.n{top:7%;right:5%;width:30%;height:4%}
+.sk.b{top:26%;left:5%;width:58%;height:15%}.sk.c{top:48%;left:5%;width:40%;height:4%}
+.sk.d{top:57%;left:5%;width:28%;height:12%}.sk.e{top:57%;left:36%;width:28%;height:12%}.sk.f{top:57%;left:67%;width:28%;height:12%}
+.ldt{position:absolute;left:0;right:0;bottom:12%;text-align:center;font-size:.8rem;color:var(--c);animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.45}}
+.pbar{position:absolute;left:20%;right:20%;bottom:7%;height:3px;border-radius:3px;background:rgba(var(--cr),.15);overflow:hidden}
+.pbar i{display:block;height:100%;width:0;border-radius:3px;background:var(--c);box-shadow:0 0 12px var(--c);animation:prog 3.8s var(--d) cubic-bezier(.4,.1,.3,1) forwards}
+@keyframes prog{to{width:100%}}
+.view iframe{transition:opacity 1s .15s ease!important}
+.s1{width:100%;min-height:100svh;display:flex;flex-direction:column;align-items:center}
+.s1.off{pointer-events:none}
+.s1,.port{--p:0}
+/* второй экран всегда в мягком красном: цвет не переключается, поэтому нет перерисовки всей страницы */
+.port{--c:#f27a8d;--c2:#e04868;--cr:242,122,141;--hi:#fbcfd6}
+@media (min-width:601px){.frame{max-width:max(22rem,min(100%,calc((100svh - 32.5rem)*1.6)));margin-left:auto;margin-right:auto}}
+@media (max-width:600px){.meta{grid-template-columns:1fr}.port{margin-top:1rem;min-height:calc(100svh - 6rem);scroll-margin-top:6rem}.pc{margin-top:-10rem}}
+@media (max-width:600px){.win{font-size:.8rem}}
+@media (max-width:600px){.lamp{height:14rem}.card{margin-top:-10rem}.top{height:8rem}}
+@media (max-width:600px){
+.page{padding-left:16px;padding-right:16px}
+.win .body{padding:.9rem 1rem 1rem}
+.win p.o{padding-left:1rem}
+.win ul{padding-left:1rem}
+.hint{padding:.8rem .6rem;margin-top:1rem}
+.meta{gap:.9rem}
+.meta p{display:none}
+.tags{margin-top:.5rem}
+.meta .cta{width:100%;justify-content:center;padding:.95rem 1rem}
+.soon{display:none}
+.port .foot{margin-top:.9rem}
+.cta{padding:.95rem 1.3rem}
+}
+@media (max-width:600px){
+.glow{filter:blur(26px)}
+.glow2{filter:blur(18px)}
+h1{animation:none;background-position:50% 0}
+.status i{animation:none}
+.beam{width:min(30rem,46vw)}
+.glow{width:min(28rem,72vw)}
+.glow2{width:min(16rem,48vw)}
+.line{width:min(30rem,72vw)}
+.l .b,.r .b{width:min(10rem,45%)}
+.l .a,.r .a{height:min(10rem,70%)}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}.term .typed{width:9ch}}
+</style>
+<noscript><style>.s1,.port{--p:1}.pc,.card{-webkit-mask-image:none;mask-image:none}</style></noscript>
+</head>
+<body>
+<main class="page">
+  <div class="s1">
+  <header class="top">
+    <div class="grid" aria-hidden="true"></div>
+    <div class="big404 mono" aria-hidden="true">404</div>
+    <p class="term mono"><b>~/s404</b> $ whoami → <span class="typed">stanislav</span></p>
+    <span class="status mono"><i></i>открыт к проектам</span>
+  </header>
+  <div class="lamp" aria-hidden="true">
+    <div class="beam l"><i class="a"></i><i class="b"></i></div>
+    <div class="beam r"><i class="a"></i><i class="b"></i></div>
+    <div class="glow"></div><div class="glow2"></div><div class="line"></div>
+  </div>
+  <section class="card">
+    <h1>Станислав <em>Албедов</em></h1>
+    <div class="win mono">
+      <div class="bar"><i></i><i></i><i></i><span>s404@freelance: ~</span></div>
+      <div class="body">
+        <p><span class="p">$</span>cat about.txt</p>
+        <p class="o">Начинающий фрилансер с большим запалом.</p>
+        <p class="o">Превращаю идеи в работающие проекты:<br>аккуратно, в срок, с вниманием к деталям.</p>
+        <p class="g"><span class="p">$</span>skills --list</p>
+        <ul>
+          <li><b>[01]</b> Разработка</li>
+          <li><b>[02]</b> Дизайн</li>
+          <li><b>[03]</b> Быстрые сроки</li>
+        </ul>
+        <p class="g"><span class="p">$</span>echo $STATUS</p>
+        <p class="o"><b>404:</b> скучных проектов не найдено</p>
+      </div>
+    </div>
+    <a class="cta mono" href="https://t.me/s404d" target="_blank" rel="noopener">$ ./обсудить_проект.sh<span class="cur"></span></a>
+    <a class="hint mono" href="#projects">$ cd projects <b>↓</b></a>
+  </section>
+</div>
+<section class="port" id="projects">
+  <div class="lamp" aria-hidden="true"><div class="beam l"><i class="a"></i><i class="b"></i></div><div class="beam r"><i class="a"></i><i class="b"></i></div><div class="glow"></div><div class="glow2"></div><div class="line"></div></div>
+  <div class="pc">
+    <h2 class="mono"><span>$</span>ls projects/</h2>
+    <div class="frame">
+      <div class="bar2"><i></i><i></i><i></i><span class="url mono">burmaldaproject.vercel.app</span></div>
+      <div class="view"><div class="ld" aria-hidden="true"><i class="sk a"></i><i class="sk n"></i><i class="sk b"></i><i class="sk c"></i><i class="sk d"></i><i class="sk e"></i><i class="sk f"></i><p class="ldt mono">loading burmalda…</p><div class="pbar"><i></i></div></div><iframe id="pv" title="Превью проекта" sandbox="allow-scripts" scrolling="no" tabindex="-1" data-srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;ru&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, viewport-fit=cover&quot;&gt;
+&lt;title&gt;S404 — Станислав Албедов, веб-разработчик&lt;/title&gt;
+&lt;style&gt;
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
 --bg:#050208;--fg:#ffffff;--mut:rgba(255,244,248,.80);--acc:#ff2d63;--panel:rgba(3,1,6,.62);--line:rgba(255,45,99,.34);
 --head-h:56px;--sec-y:clamp(50px,7.5vh,88px);--sec-gap:clamp(40px,6vw,72px)}
 html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
 *,*::before,*::after{box-sizing:inherit}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6}
-.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;text-transform:uppercase;letter-spacing:.28em;font-size:11px}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,&quot;Segoe UI&quot;,Roboto,sans-serif;line-height:1.6}
+.mono{font-family:ui-monospace,&quot;SF Mono&quot;,Menlo,Consolas,monospace;text-transform:uppercase;letter-spacing:.28em;font-size:11px}
 #sky{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0;background:#050208}
 main{position:relative;z-index:1}
 section{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:var(--sec-y) 24px;max-width:1040px;margin:0 auto}
-main > section + section{border-top:1px solid var(--line);padding-top:var(--sec-gap);margin-top:var(--sec-gap);min-height:0}
+main &gt; section + section{border-top:1px solid var(--line);padding-top:var(--sec-gap);margin-top:var(--sec-gap);min-height:0}
 header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:16px 24px;background:linear-gradient(var(--bg),transparent)}
 header a{color:var(--fg);text-decoration:none}
 #prog{position:fixed;top:calc(env(safe-area-inset-top,0px) + var(--head-h));left:0;height:2px;width:100%;z-index:6;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,rgba(255,31,90,.15),var(--acc) 55%,#ff8fb0);box-shadow:0 0 12px rgba(255,31,90,.75);pointer-events:none;will-change:transform}
-#prog::after{content:"";position:absolute;right:0;top:-2px;width:26px;height:6px;border-radius:50%;background:var(--acc);filter:blur(6px);opacity:.85}
+#prog::after{content:&quot;&quot;;position:absolute;right:0;top:-2px;width:26px;height:6px;border-radius:50%;background:var(--acc);filter:blur(6px);opacity:.85}
 @media(prefers-reduced-motion:no-preference){[data-reveal]{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1)}[data-reveal].in{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){#prog{transition:none}}
 nav{display:flex;gap:20px}nav a{color:var(--mut);transition:color .2s}nav a:hover{color:var(--acc)}
@@ -44,149 +258,228 @@ a:focus-visible,.btn:focus-visible{outline:2px solid var(--acc);outline-offset:3
 @media(max-width:600px){nav{display:none}:root{--sec-y:46px;--sec-gap:36px}section{padding:var(--sec-y) 20px}}
 @media(max-width:700px){.card,.about{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(3,1,6,.9)}}
 @media(prefers-reduced-motion:reduce){.btn,.card,.about,.tags span{transition:none}}
-</style>
-</head>
-<body>
-<canvas id="sky" aria-hidden="true"></canvas>
-<div id="prog" aria-hidden="true"></div>
-<header class="mono">
-  <a class="logo" href="#top">S<b>404</b></a>
-  <nav><a href="#about">Обо мне</a><a href="#services">Услуги</a><a href="#process">Процесс</a><a href="#contact">Контакты</a></nav>
-</header>
-<main id="top">
-  <section>
-    <p class="mono eyebrow" data-reveal>✦ фриланс · веб-разработка</p>
-    <h1 data-reveal>Сайты, которые<br>не уходят в <span>404</span>.</h1>
-    <p class="lead" data-reveal>Я Станислав Албедов, он же S404. Начинающий разработчик: делаю аккуратные, быстрые и адаптивные сайты для небольшого бизнеса и частных проектов.</p>
-    <div data-reveal><a class="btn mono" href="#contact">Обсудить проект →</a><a class="btn ghost mono" href="#services">Что умею</a></div>
-  </section>
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;script&gt;(function(){var h=true,q=0,o=window.requestAnimationFrame.bind(window);
+var real=performance.now.bind(performance),lr=real(),vt=0,rate=0,tg=0;
+performance.now=function(){var n=real(),dt=n-lr;lr=n;rate+=(tg-rate)*(1-Math.exp(-dt/450));vt+=dt*rate;return vt};
+window.requestAnimationFrame=function(f){q++;return o(function(t){q--;f(t)})};
+Object.defineProperty(document,&#x27;hidden&#x27;,{configurable:true,get:function(){return h}});
+function wake(){document.dispatchEvent(new Event(&#x27;visibilitychange&#x27;))}
+addEventListener(&#x27;message&#x27;,function(e){var d=e.data;if(!d||d.t!==&#x27;vis&#x27;)return;var nh=!d.v;if(nh===h)return;h=nh;
+if(h){tg=0;rate=0}else{tg=1;lr=real();if(q===0)wake();setTimeout(function(){if(!h&amp;&amp;q===0)wake()},120)}})})();&lt;/script&gt;
 
-  <section id="about">
-    <h2 data-reveal>Обо мне</h2>
-    <div class="about" data-reveal>
-      <p><b>Начинаю путь во фрилансе</b> и честно говорю об этом: у меня мало кейсов, зато много внимания к деталям и желания сделать работу хорошо.</p>
-      <p>Беру небольшие проекты, объясняю всё простым языком, не пропадаю и сдаю в срок. Если чего-то не знаю — разберусь, а не буду делать вид.</p>
-    </div>
-    <div class="tags mono" style="letter-spacing:.12em" data-reveal><span>HTML</span><span>CSS</span><span>JavaScript</span><span>TypeScript</span><span>React</span><span>Tailwind CSS</span><span>Git</span><span>Figma</span></div>
-  </section>
 
-  <section id="services">
-    <h2 data-reveal>Что я делаю</h2>
-    <div class="grid">
-      <div class="card" data-reveal><span class="n mono">01</span><h3>Сайт-визитка</h3><p>Одностраничник о вас или вашем деле: понятный, быстрый, с контактами и формой связи.</p></div>
-      <div class="card" data-reveal style="transition-delay:.08s"><span class="n mono">02</span><h3>Лендинг</h3><p>Страница под одну цель — заявки, запись или продажа. Чёткая структура и призыв к действию.</p></div>
-      <div class="card" data-reveal style="transition-delay:.16s"><span class="n mono">03</span><h3>Вёрстка по макету</h3><p>Pixel-perfect перенос дизайна из Figma в адаптивный код для любых экранов.</p></div>
-      <div class="card" data-reveal style="transition-delay:.24s"><span class="n mono">04</span><h3>Правки и доработка</h3><p>Починю, ускорю и обновлю существующий сайт: мелкие задачи и доработки.</p></div>
-    </div>
-  </section>
+&lt;canvas id=&quot;sky&quot; aria-hidden=&quot;true&quot;&gt;&lt;/canvas&gt;
+&lt;div id=&quot;prog&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;
+&lt;header class=&quot;mono&quot;&gt;
+  &lt;a class=&quot;logo&quot; href=&quot;#top&quot;&gt;S&lt;b&gt;404&lt;/b&gt;&lt;/a&gt;
+  &lt;nav&gt;&lt;a href=&quot;#about&quot;&gt;Обо мне&lt;/a&gt;&lt;a href=&quot;#services&quot;&gt;Услуги&lt;/a&gt;&lt;a href=&quot;#process&quot;&gt;Процесс&lt;/a&gt;&lt;a href=&quot;#contact&quot;&gt;Контакты&lt;/a&gt;&lt;/nav&gt;
+&lt;/header&gt;
+&lt;main id=&quot;top&quot;&gt;
+  &lt;section&gt;
+    &lt;p class=&quot;mono eyebrow&quot; data-reveal&gt;✦ фриланс · веб-разработка&lt;/p&gt;
+    &lt;h1 data-reveal&gt;Сайты, которые&lt;br&gt;не уходят в &lt;span&gt;404&lt;/span&gt;.&lt;/h1&gt;
+    &lt;p class=&quot;lead&quot; data-reveal&gt;Я Станислав Албедов, он же S404. Начинающий разработчик: делаю аккуратные, быстрые и адаптивные сайты для небольшого бизнеса и частных проектов.&lt;/p&gt;
+    &lt;div data-reveal&gt;&lt;a class=&quot;btn mono&quot; href=&quot;#contact&quot;&gt;Обсудить проект →&lt;/a&gt;&lt;a class=&quot;btn ghost mono&quot; href=&quot;#services&quot;&gt;Что умею&lt;/a&gt;&lt;/div&gt;
+  &lt;/section&gt;
 
-  <section id="process">
-    <h2 data-reveal>Как мы работаем</h2>
-    <div class="grid">
-      <div class="card" data-reveal><span class="n mono">шаг 1</span><h3>Бриф</h3><p>Обсуждаем задачу, сроки и бюджет. Без сложных терминов.</p></div>
-      <div class="card" data-reveal style="transition-delay:.08s"><span class="n mono">шаг 2</span><h3>Прототип</h3><p>Показываю структуру и дизайн до того, как писать код.</p></div>
-      <div class="card" data-reveal style="transition-delay:.16s"><span class="n mono">шаг 3</span><h3>Разработка</h3><p>Делаю сайт и регулярно показываю промежуточный результат.</p></div>
-      <div class="card" data-reveal style="transition-delay:.24s"><span class="n mono">шаг 4</span><h3>Запуск</h3><p>Публикую сайт, проверяю на устройствах и передаю доступы.</p></div>
-    </div>
-  </section>
+  &lt;section id=&quot;about&quot;&gt;
+    &lt;h2 data-reveal&gt;Обо мне&lt;/h2&gt;
+    &lt;div class=&quot;about&quot; data-reveal&gt;
+      &lt;p&gt;&lt;b&gt;Начинаю путь во фрилансе&lt;/b&gt; и честно говорю об этом: у меня мало кейсов, зато много внимания к деталям и желания сделать работу хорошо.&lt;/p&gt;
+      &lt;p&gt;Беру небольшие проекты, объясняю всё простым языком, не пропадаю и сдаю в срок. Если чего-то не знаю — разберусь, а не буду делать вид.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;tags mono&quot; style=&quot;letter-spacing:.12em&quot; data-reveal&gt;&lt;span&gt;HTML&lt;/span&gt;&lt;span&gt;CSS&lt;/span&gt;&lt;span&gt;JavaScript&lt;/span&gt;&lt;span&gt;TypeScript&lt;/span&gt;&lt;span&gt;React&lt;/span&gt;&lt;span&gt;Tailwind CSS&lt;/span&gt;&lt;span&gt;Git&lt;/span&gt;&lt;span&gt;Figma&lt;/span&gt;&lt;/div&gt;
+  &lt;/section&gt;
 
-  <section id="contact">
-    <p class="mono eyebrow" data-reveal>✦ на связи</p>
-    <h2 data-reveal>Давайте сделаем ваш сайт</h2>
-    <p class="lead" data-reveal>Расскажите коротко о задаче — отвечу в течение дня.</p>
-    <div data-reveal><a class="btn mono" href="mailto:hello@s404.dev">hello@s404.dev →</a><a class="btn ghost mono" href="https://t.me/s404" rel="noopener">Telegram @s404</a></div>
-  </section>
-</main>
-<footer class="mono" style="font-size:10px">© 2026 S404 · Stanislav Albedov</footer>
+  &lt;section id=&quot;services&quot;&gt;
+    &lt;h2 data-reveal&gt;Что я делаю&lt;/h2&gt;
+    &lt;div class=&quot;grid&quot;&gt;
+      &lt;div class=&quot;card&quot; data-reveal&gt;&lt;span class=&quot;n mono&quot;&gt;01&lt;/span&gt;&lt;h3&gt;Сайт-визитка&lt;/h3&gt;&lt;p&gt;Одностраничник о вас или вашем деле: понятный, быстрый, с контактами и формой связи.&lt;/p&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; data-reveal style=&quot;transition-delay:.08s&quot;&gt;&lt;span class=&quot;n mono&quot;&gt;02&lt;/span&gt;&lt;h3&gt;Лендинг&lt;/h3&gt;&lt;p&gt;Страница под одну цель — заявки, запись или продажа. Чёткая структура и призыв к действию.&lt;/p&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; data-reveal style=&quot;transition-delay:.16s&quot;&gt;&lt;span class=&quot;n mono&quot;&gt;03&lt;/span&gt;&lt;h3&gt;Вёрстка по макету&lt;/h3&gt;&lt;p&gt;Pixel-perfect перенос дизайна из Figma в адаптивный код для любых экранов.&lt;/p&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; data-reveal style=&quot;transition-delay:.24s&quot;&gt;&lt;span class=&quot;n mono&quot;&gt;04&lt;/span&gt;&lt;h3&gt;Правки и доработка&lt;/h3&gt;&lt;p&gt;Починю, ускорю и обновлю существующий сайт: мелкие задачи и доработки.&lt;/p&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
 
-<script>
+  &lt;section id=&quot;process&quot;&gt;
+    &lt;h2 data-reveal&gt;Как мы работаем&lt;/h2&gt;
+    &lt;div class=&quot;grid&quot;&gt;
+      &lt;div class=&quot;card&quot; data-reveal&gt;&lt;span class=&quot;n mono&quot;&gt;шаг 1&lt;/span&gt;&lt;h3&gt;Бриф&lt;/h3&gt;&lt;p&gt;Обсуждаем задачу, сроки и бюджет. Без сложных терминов.&lt;/p&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; data-reveal style=&quot;transition-delay:.08s&quot;&gt;&lt;span class=&quot;n mono&quot;&gt;шаг 2&lt;/span&gt;&lt;h3&gt;Прототип&lt;/h3&gt;&lt;p&gt;Показываю структуру и дизайн до того, как писать код.&lt;/p&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; data-reveal style=&quot;transition-delay:.16s&quot;&gt;&lt;span class=&quot;n mono&quot;&gt;шаг 3&lt;/span&gt;&lt;h3&gt;Разработка&lt;/h3&gt;&lt;p&gt;Делаю сайт и регулярно показываю промежуточный результат.&lt;/p&gt;&lt;/div&gt;
+      &lt;div class=&quot;card&quot; data-reveal style=&quot;transition-delay:.24s&quot;&gt;&lt;span class=&quot;n mono&quot;&gt;шаг 4&lt;/span&gt;&lt;h3&gt;Запуск&lt;/h3&gt;&lt;p&gt;Публикую сайт, проверяю на устройствах и передаю доступы.&lt;/p&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section id=&quot;contact&quot;&gt;
+    &lt;p class=&quot;mono eyebrow&quot; data-reveal&gt;✦ на связи&lt;/p&gt;
+    &lt;h2 data-reveal&gt;Давайте сделаем ваш сайт&lt;/h2&gt;
+    &lt;p class=&quot;lead&quot; data-reveal&gt;Расскажите коротко о задаче — отвечу в течение дня.&lt;/p&gt;
+    &lt;div data-reveal&gt;&lt;a class=&quot;btn mono&quot; href=&quot;mailto:hello@s404.dev&quot;&gt;hello@s404.dev →&lt;/a&gt;&lt;a class=&quot;btn ghost mono&quot; href=&quot;https://t.me/s404&quot; rel=&quot;noopener&quot;&gt;Telegram @s404&lt;/a&gt;&lt;/div&gt;
+  &lt;/section&gt;
+&lt;/main&gt;
+&lt;footer class=&quot;mono&quot; style=&quot;font-size:10px&quot;&gt;© 2026 S404 · Stanislav Albedov&lt;/footer&gt;
+
+&lt;script&gt;
 /* === UI: полоса прогресса скролла + появление блоков === */
 (function(){
-var doc=document.documentElement,bar=document.getElementById("prog"),
-reduce=matchMedia("(prefers-reduced-motion: reduce)").matches,pending=false,last=-1;
+var doc=document.documentElement,bar=document.getElementById(&quot;prog&quot;),
+reduce=matchMedia(&quot;(prefers-reduced-motion: reduce)&quot;).matches,pending=false,last=-1;
 function paint(){
   pending=false;
   var max=doc.scrollHeight-innerHeight;
-  var p=max>0?Math.min(Math.max(scrollY/max,0),1):0;
+  var p=max&gt;0?Math.min(Math.max(scrollY/max,0),1):0;
   if(p===last)return;last=p;
-  bar.style.transform="scaleX("+p.toFixed(4)+")";
+  bar.style.transform=&quot;scaleX(&quot;+p.toFixed(4)+&quot;)&quot;;
 }
-addEventListener("scroll",function(){if(!pending){pending=true;requestAnimationFrame(paint);}},{passive:true});
-addEventListener("resize",function(){if(!pending){pending=true;requestAnimationFrame(paint);}},{passive:true});
-var items=document.querySelectorAll("[data-reveal]");
-if(reduce||!("IntersectionObserver" in window)){
-  for(var i=0;i<items.length;i++)items[i].classList.add("in");
+addEventListener(&quot;scroll&quot;,function(){if(!pending){pending=true;requestAnimationFrame(paint);}},{passive:true});
+addEventListener(&quot;resize&quot;,function(){if(!pending){pending=true;requestAnimationFrame(paint);}},{passive:true});
+var items=document.querySelectorAll(&quot;[data-reveal]&quot;);
+if(reduce||!(&quot;IntersectionObserver&quot; in window)){
+  for(var i=0;i&lt;items.length;i++)items[i].classList.add(&quot;in&quot;);
 }else{
   var io=new IntersectionObserver(function(es){
-    es.forEach(function(e){if(!e.isIntersecting)return;e.target.classList.add("in");io.unobserve(e.target);});
-  },{rootMargin:"0px 0px -8% 0px",threshold:.1});
-  for(var j=0;j<items.length;j++)io.observe(items[j]);
+    es.forEach(function(e){if(!e.isIntersecting)return;e.target.classList.add(&quot;in&quot;);io.unobserve(e.target);});
+  },{rootMargin:&quot;0px 0px -8% 0px&quot;,threshold:.1});
+  for(var j=0;j&lt;items.length;j++)io.observe(items[j]);
 }
 paint();
 })();
-</script>
+&lt;/script&gt;
 
-<script>
+&lt;script&gt;
 (function(){
-var c=document.getElementById("sky");
-var gl=c.getContext("webgl2",{antialias:false,alpha:false,depth:false});
+var c=document.getElementById(&quot;sky&quot;);
+var gl=c.getContext(&quot;webgl2&quot;,{antialias:false,alpha:false,depth:false});
 if(!gl)return;
-var VS="#version 300 es\nvoid main(){vec2 p=vec2(float((gl_VertexID<<1)&2),float(gl_VertexID&2));gl_Position=vec4(p*2.0-1.0,0.0,1.0);}";
-var MOBILE=innerWidth<700,OCT=MOBILE?3:5,NORM=MOBILE?".875":".96875";
-var FS="#version 300 es\nprecision highp float;\n#define OCT "+OCT+"\n#define NORM "+NORM+"\n"+
-"uniform vec2 uRes;uniform float uDpr,uTime,uPx,uOn,uScroll,uNeb;uniform vec2 uPtr,uLook;out vec4 frag;\n"+
-"float h12(vec2 p){vec3 q=fract(vec3(p.xyx)*.1031);q+=dot(q,q.yzx+33.33);return fract((q.x+q.y)*q.z);}\n"+
-"float vn(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h12(i),h12(i+vec2(1,0)),f.x),mix(h12(i+vec2(0,1)),h12(i+vec2(1,1)),f.x),f.y);}\n"+
-"float fbm(vec2 p){float s=0.,a=.5;mat2 r=mat2(.8,-.6,.6,.8);for(int i=0;i<OCT;i++){s+=a*vn(p);p=r*p*2.03+17.1;a*=.5;}return s/NORM;}\n"+
-"float bay(vec2 c){vec2 m=mod(c,4.);int i=int(m.x)+int(m.y)*4;int b[16]=int[16](0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5);return(float(b[i])+.5)/16.;}\n"+
-"const vec3 VO=vec3(.015,.01,.028),HZ=vec3(.10,.13,.31),DU=vec3(.34,.13,.42),WI=vec3(.40,.05,.22),CR=vec3(.60,.05,.21),HO=vec3(.60,.07,.20),ST=vec3(.965,.886,.91);\n"+
-"vec3 ramp(float d,vec3 hz){vec3 c=mix(VO,hz,smoothstep(0.,.22,d));c=mix(c,WI,smoothstep(.18,.44,d));c=mix(c,CR,smoothstep(.42,.72,d));return mix(c,HO,smoothstep(.7,.96,d));}\n"+
-"vec3 field(vec2 pos,vec2 rc){float ms=min(rc.x,rc.y);vec2 uv=(pos-.5*rc)/ms;vec2 p=uv*1.7+uLook*.14-vec2(0.,uNeb);\n"+
-" vec2 tp=pos-uPtr;float lamp=exp(-dot(tp,tp)/(170.*170.))*uOn;p+=tp/ms*lamp*.3*1.7;\n"+
-" float t=uTime*.035;vec2 q=vec2(fbm(p+vec2(0,t*.7)),fbm(p+vec2(5.2,1.3)-t*.5));float n=fbm(p+2.2*q+vec2(t*.4,-t*.25));\n"+
-" vec2 dir=vec2(cos(1.05),sin(1.05));float al=dot(uv,dir);float ac=dot(uv,vec2(-dir.y,dir.x))-.42-.22*sin(al*2.3+t*3.)-(q.x-.5)*.35;float rv=exp(-ac*ac/(.34*.34));\n"+
-" float raw=n+rv*.25;float d=smoothstep(.40,1.06,raw);d=clamp(d+lamp*.18,0.,1.);\n"+
-" float hz=smoothstep(.25,.75,n+rv*.25)*.8;float tone=fbm(p*.45+vec2(11,-3)+t*.2);return vec3(d,hz,tone);}\n"+
-"void main(){vec2 rc=uRes/uDpr;vec2 css=gl_FragCoord.xy/uDpr;float px=uPx;\n"+
-" vec3 g=field(css,rc);vec3 hc=mix(HZ,DU,smoothstep(.30,.70,g.z));float dq=clamp(g.x,0.,1.);float hq=clamp(g.y,0.,1.);\n"+
-" vec3 bg=mix(VO,hc,hq*.85);bg=mix(bg,ramp(dq*.95,hc)*.52,smoothstep(0.,.34,dq));\n"+
-" vec3 dc=dq<.01?mix(VO,hc,.30+hq*.6):ramp(min(dq+.14,1.),hc);vec3 col=mix(bg,dc,smoothstep(0.,.88,dq));\n"+
-" for(int l=0;l<3;l++){float fl=float(l);float dp=.3+fl*.4;float gp=px*(l==2?2.:1.);vec2 sp=css+floor(uLook*dp*28.)+vec2(0.,-uScroll*dp*210.+uTime*1.2*dp);vec2 id=floor(sp/gp);vec2 fr=fract(sp/gp)-.5;\n"+
-"  float pr=(l==0?.017:l==1?.026:.019);float h=h12(id+fl*71.3);if(h>1.-pr){float h2=h12(id*1.7+3.1+fl);float tw=.45+.55*(.5+.5*sin(uTime*1.4*(.6+h2*2.5)+h2*40.));float rr=l==2?.42:.26+h2*.22;float m=step(length(fr),rr);\n"+
-"   if(l==2){float rl=1.-smoothstep(0.,.055,abs(fr.x));float rv2=1.-smoothstep(0.,.055,abs(fr.y));float reach=1.-smoothstep(0.,.52,length(fr));m=max(m,max(rl,rv2)*reach*.9);}\n"+
-"   vec3 sc=(l==0||h2>.82)?ST:HO;col=mix(col,sc*tw,m*tw*(1.-g.x*.55));}}\n"+
-" vec2 vu=gl_FragCoord.xy/uRes-.5;col*=1.-.5*smoothstep(.35,.95,length(vu*vec2(uRes.x/uRes.y,1.)*1.1));\n"+
-" col+=(h12(css+7.7)-.5)*.010;frag=vec4(max(col,vec3(0.)),1.);}";
+var VS=&quot;#version 300 es\nvoid main(){vec2 p=vec2(float((gl_VertexID&lt;&lt;1)&amp;2),float(gl_VertexID&amp;2));gl_Position=vec4(p*2.0-1.0,0.0,1.0);}&quot;;
+var MOBILE=innerWidth&lt;700,OCT=(screen.width&lt;700?3:4),NORM=(screen.width&lt;700?&quot;.875&quot;:&quot;.9375&quot;);
+var FS=&quot;#version 300 es\nprecision highp float;\n#define OCT &quot;+OCT+&quot;\n#define NORM &quot;+NORM+&quot;\n&quot;+
+&quot;uniform vec2 uRes;uniform float uDpr,uTime,uPx,uOn,uScroll,uNeb;uniform vec2 uPtr,uLook;out vec4 frag;\n&quot;+
+&quot;float h12(vec2 p){vec3 q=fract(vec3(p.xyx)*.1031);q+=dot(q,q.yzx+33.33);return fract((q.x+q.y)*q.z);}\n&quot;+
+&quot;float vn(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h12(i),h12(i+vec2(1,0)),f.x),mix(h12(i+vec2(0,1)),h12(i+vec2(1,1)),f.x),f.y);}\n&quot;+
+&quot;float fbm(vec2 p){float s=0.,a=.5;mat2 r=mat2(.8,-.6,.6,.8);for(int i=0;i&lt;OCT;i++){s+=a*vn(p);p=r*p*2.03+17.1;a*=.5;}return s/NORM;}\n&quot;+
+&quot;float bay(vec2 c){vec2 m=mod(c,4.);int i=int(m.x)+int(m.y)*4;int b[16]=int[16](0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5);return(float(b[i])+.5)/16.;}\n&quot;+
+&quot;const vec3 VO=vec3(.015,.01,.028),HZ=vec3(.10,.13,.31),DU=vec3(.34,.13,.42),WI=vec3(.40,.05,.22),CR=vec3(.60,.05,.21),HO=vec3(.60,.07,.20),ST=vec3(.965,.886,.91);\n&quot;+
+&quot;vec3 ramp(float d,vec3 hz){vec3 c=mix(VO,hz,smoothstep(0.,.22,d));c=mix(c,WI,smoothstep(.18,.44,d));c=mix(c,CR,smoothstep(.42,.72,d));return mix(c,HO,smoothstep(.7,.96,d));}\n&quot;+
+&quot;vec3 field(vec2 pos,vec2 rc){float ms=min(rc.x,rc.y);vec2 uv=(pos-.5*rc)/ms;vec2 p=uv*1.7+uLook*.14-vec2(0.,uNeb);\n&quot;+
+&quot; vec2 tp=pos-uPtr;float lamp=exp(-dot(tp,tp)/(170.*170.))*uOn;p+=tp/ms*lamp*.3*1.7;\n&quot;+
+&quot; float t=uTime*.035;vec2 q=vec2(fbm(p+vec2(0,t*.7)),fbm(p+vec2(5.2,1.3)-t*.5));float n=fbm(p+2.2*q+vec2(t*.4,-t*.25));\n&quot;+
+&quot; vec2 dir=vec2(cos(1.05),sin(1.05));float al=dot(uv,dir);float ac=dot(uv,vec2(-dir.y,dir.x))-.42-.22*sin(al*2.3+t*3.)-(q.x-.5)*.35;float rv=exp(-ac*ac/(.34*.34));\n&quot;+
+&quot; float raw=n+rv*.25;float d=smoothstep(.40,1.06,raw);d=clamp(d+lamp*.18,0.,1.);\n&quot;+
+&quot; float hz=smoothstep(.25,.75,n+rv*.25)*.8;float tone=fbm(p*.45+vec2(11,-3)+t*.2);return vec3(d,hz,tone);}\n&quot;+
+&quot;void main(){vec2 rc=uRes/uDpr;vec2 css=gl_FragCoord.xy/uDpr;float px=uPx;\n&quot;+
+&quot; vec3 g=field(css,rc);vec3 hc=mix(HZ,DU,smoothstep(.30,.70,g.z));float dq=clamp(g.x,0.,1.);float hq=clamp(g.y,0.,1.);\n&quot;+
+&quot; vec3 bg=mix(VO,hc,hq*.85);bg=mix(bg,ramp(dq*.95,hc)*.52,smoothstep(0.,.34,dq));\n&quot;+
+&quot; vec3 dc=dq&lt;.01?mix(VO,hc,.30+hq*.6):ramp(min(dq+.14,1.),hc);vec3 col=mix(bg,dc,smoothstep(0.,.88,dq));\n&quot;+
+&quot; for(int l=0;l&lt;3;l++){float fl=float(l);float dp=.3+fl*.4;float gp=px*(l==2?2.:1.);vec2 sp=css+floor(uLook*dp*28.)+vec2(0.,-uScroll*dp*210.+uTime*1.2*dp);vec2 id=floor(sp/gp);vec2 fr=fract(sp/gp)-.5;\n&quot;+
+&quot;  float pr=(l==0?.017:l==1?.026:.019);float h=h12(id+fl*71.3);if(h&gt;1.-pr){float h2=h12(id*1.7+3.1+fl);float tw=.45+.55*(.5+.5*sin(uTime*1.4*(.6+h2*2.5)+h2*40.));float rr=l==2?.42:.26+h2*.22;float m=step(length(fr),rr);\n&quot;+
+&quot;   if(l==2){float rl=1.-smoothstep(0.,.055,abs(fr.x));float rv2=1.-smoothstep(0.,.055,abs(fr.y));float reach=1.-smoothstep(0.,.52,length(fr));m=max(m,max(rl,rv2)*reach*.9);}\n&quot;+
+&quot;   vec3 sc=(l==0||h2&gt;.82)?ST:HO;col=mix(col,sc*tw,m*tw*(1.-g.x*.55));}}\n&quot;+
+&quot; vec2 vu=gl_FragCoord.xy/uRes-.5;col*=1.-.5*smoothstep(.35,.95,length(vu*vec2(uRes.x/uRes.y,1.)*1.1));\n&quot;+
+&quot; col+=(h12(css+7.7)-.5)*.010;frag=vec4(max(col,vec3(0.)),1.);}&quot;;
 function sh(t,s){var o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS)){console.error(gl.getShaderInfoLog(o));return null;}return o;}
 var vs=sh(gl.VERTEX_SHADER,VS),fs=sh(gl.FRAGMENT_SHADER,FS);if(!vs||!fs)return;
 var pr=gl.createProgram();gl.attachShader(pr,vs);gl.attachShader(pr,fs);gl.linkProgram(pr);
 if(!gl.getProgramParameter(pr,gl.LINK_STATUS)){console.error(gl.getProgramInfoLog(pr));return;}
 gl.useProgram(pr);gl.bindVertexArray(gl.createVertexArray());
-var U={};["uRes","uDpr","uTime","uPx","uOn","uPtr","uLook","uScroll","uNeb"].forEach(function(n){U[n]=gl.getUniformLocation(pr,n);});
-var mq=matchMedia("(prefers-reduced-motion: reduce)"),W=1,H=1,dpr=1;
+var U={};[&quot;uRes&quot;,&quot;uDpr&quot;,&quot;uTime&quot;,&quot;uPx&quot;,&quot;uOn&quot;,&quot;uPtr&quot;,&quot;uLook&quot;,&quot;uScroll&quot;,&quot;uNeb&quot;].forEach(function(n){U[n]=gl.getUniformLocation(pr,n);});
+var mq=matchMedia(&quot;(prefers-reduced-motion: reduce)&quot;),W=1,H=1,dpr=1;
 var rzT=0;
-function size(){var r=c.getBoundingClientRect();W=Math.max(1,Math.round(r.width));H=Math.max(1,Math.round(r.height));dpr=Math.min(devicePixelRatio||1,W<700?1:1.5);c.width=Math.floor(W*dpr);c.height=Math.floor(H*dpr);gl.viewport(0,0,c.width,c.height);}
+function size(){var r=c.getBoundingClientRect();W=Math.max(1,Math.round(r.width));H=Math.max(1,Math.round(r.height));dpr=(screen.width&lt;700?.35:.6);c.width=Math.floor(W*dpr);c.height=Math.floor(H*dpr);gl.viewport(0,0,c.width,c.height);}
 size();
-addEventListener("resize",function(){clearTimeout(rzT);rzT=setTimeout(function(){size();if(mq.matches)draw();},160);},{passive:true});
-addEventListener("orientationchange",function(){setTimeout(function(){size();if(mq.matches)draw();},280);});
+addEventListener(&quot;resize&quot;,function(){clearTimeout(rzT);rzT=setTimeout(function(){size();if(mq.matches)draw();},160);},{passive:true});
+addEventListener(&quot;orientationchange&quot;,function(){setTimeout(function(){size();if(mq.matches)draw();},280);});
 var tx=.5,ty=.5,lx=.5,ly=.5,on=0,seen=-99,t0=performance.now(),last=0,sy=0,syS=0;
 function now(){return mq.matches?14:(performance.now()-t0)/1000;}
-addEventListener("scroll",function(){sy=scrollY/(innerHeight||1);},{passive:true});
-addEventListener("pointermove",function(e){tx=e.clientX/W;ty=1-e.clientY/H;seen=now();});
-addEventListener("pointerdown",function(e){if(e.target.closest("a,button"))return;tx=e.clientX/W;ty=1-e.clientY/H;seen=now();});
+addEventListener(&quot;scroll&quot;,function(){sy=scrollY/(innerHeight||1);},{passive:true});
+addEventListener(&quot;pointermove&quot;,function(e){tx=e.clientX/W;ty=1-e.clientY/H;seen=now();});
+addEventListener(&quot;pointerdown&quot;,function(e){if(e.target.closest(&quot;a,button&quot;))return;tx=e.clientX/W;ty=1-e.clientY/H;seen=now();});
 function draw(){var t=now(),dt=Math.min(Math.max(t-last,0),.1);last=t;
- var idle=t-seen>6,wx=idle?.5+.32*Math.sin(t*.13)+.1*Math.sin(t*.046+1.3):tx,wy=idle?.5+.26*Math.cos(t*.1)+.12*Math.cos(t*.032+4.2):ty;
+ var idle=t-seen&gt;6,wx=idle?.5+.32*Math.sin(t*.13)+.1*Math.sin(t*.046+1.3):tx,wy=idle?.5+.26*Math.cos(t*.1)+.12*Math.cos(t*.032+4.2):ty;
  var k=mq.matches?1:1-Math.exp(-dt*(idle?1.5:7));lx+=(wx-lx)*k;ly+=(wy-ly)*k;
  syS+=(sy-syS)*(mq.matches?1:1-Math.exp(-dt*11));
  on+=((mq.matches?0:idle?.55:1)-on)*(1-Math.exp(-dt*3));
- gl.uniform2f(U.uRes,c.width,c.height);gl.uniform1f(U.uDpr,c.width/W);gl.uniform1f(U.uTime,t);gl.uniform1f(U.uPx,W<600?4:5);
+ gl.uniform2f(U.uRes,c.width,c.height);gl.uniform1f(U.uDpr,c.width/W);gl.uniform1f(U.uTime,t);gl.uniform1f(U.uPx,W&lt;600?4:5);
  gl.uniform1f(U.uOn,on);gl.uniform2f(U.uPtr,lx*W,ly*H);gl.uniform2f(U.uLook,(lx-.5)*2,(ly-.5)*2);
  gl.uniform1f(U.uScroll,syS);
  gl.uniform1f(U.uNeb,scrollY*1.7/Math.max(Math.min(W,H),1));
  gl.drawArrays(gl.TRIANGLES,0,3);}
-function loop(){draw();if(!mq.matches&&!document.hidden)requestAnimationFrame(loop);}
-document.addEventListener("visibilitychange",function(){if(!document.hidden&&!mq.matches)requestAnimationFrame(loop);});
+var fk=0;function loop(){if((fk^=1))draw();if(!mq.matches&amp;&amp;!document.hidden)requestAnimationFrame(loop);}
+document.addEventListener(&quot;visibilitychange&quot;,function(){if(!document.hidden&amp;&amp;!mq.matches)requestAnimationFrame(loop);});
 draw();if(!mq.matches)requestAnimationFrame(loop);
+})();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe></div>
+    </div>
+    <div class="meta mono">
+      <div>
+        <h3>S404 — сайт веб-разработчика</h3>
+        <p>Лендинг-визитка с услугами, процессом работы и формой связи. Адаптивная вёрстка и анимированный фон.</p>
+        <div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Адаптив</span></div>
+      </div>
+      <a class="cta mono" href="https://burmaldaproject.vercel.app/" target="_blank" rel="noopener">$ open burmalda ↗</a>
+    </div>
+    <div class="soon mono"><b>новый_проект</b>.soon — здесь появится следующая работа</div>
+    <p class="foot mono" style="text-align:center"><a href="#" style="color:inherit;text-decoration:none"># © s404 · ↑ наверх</a></p>
+  </div>
+</section>
+</main>
+<script>
+(function(){
+  var port=document.getElementById('projects'),pv=document.getElementById('pv'),view=pv.parentNode,s1=document.querySelector('.s1');
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var ON_SEC=3.4,OFF_SEC=1.0; /* сколько секунд лампа разгорается и гаснет */
+  var loaded=false,timed=false,started=false,tk=0,ready=false;
+  /* контроллер света: прогресс 0..1, плавно и без рывков при смене направления */
+  function make(el){
+    var t=0,dir=0,raf=0,last=0;
+    function apply(){var p=1-Math.pow(1-t,2.4);el.style.setProperty('--p',p.toFixed(4));el.classList.toggle('full',t>=1)}
+    function step(now){
+      var dt=Math.min((now-last)/1000,.05);last=now;
+      t=Math.max(0,Math.min(1,t+dir*dt/(dir>0?ON_SEC:OFF_SEC)));apply();
+      if((dir>0&&t<1)||(dir<0&&t>0))raf=requestAnimationFrame(step);else raf=0}
+    return{to:function(on){dir=on?1:-1;if(reduce){t=on?1:0;apply();return}
+      if(!raf){last=performance.now();raf=requestAnimationFrame(step)}}}
+  }
+  var c1=make(s1),c2=make(port);
+  function fit(){var w=view.clientWidth,vw=w<560?800:1280;pv.style.width=vw+'px';pv.style.height=(vw*.625)+'px';pv.style.transform='scale('+(w/vw)+')'}
+  fit();addEventListener('resize',fit);
+  var phone=window.matchMedia&&matchMedia('(max-width:600px)').matches;
+  var vis=false,awake=false,wakeT=0;
+  function post(){if(pv.contentWindow)pv.contentWindow.postMessage({t:'vis',v:awake},'*')}
+  function done(){port.classList.add('done')}
+  function tryDone(){if(loaded&&timed)done()}
+  /* тяжёлую загрузку превью делаем заранее, в простое, пока человек читает первый экран */
+  var loading=false;
+  function load(){
+    if(loading)return;loading=true;
+    pv.addEventListener('load',function(){loaded=true;tryDone();post();setTimeout(function(){ready=true;chk()},300)},{once:true});
+    setTimeout(function(){ready=true;chk()},3500);
+    pv.srcdoc=pv.getAttribute('data-srcdoc');
+  }
+  setTimeout(function(){(window.requestIdleCallback||function(f){setTimeout(f,60)})(load,{timeout:4000})},ON_SEC*1000+(phone?700:1500));
+  function start(){
+    started=true;load();
+    setTimeout(function(){timed=true;tryDone()},reduce?0:ON_SEC*1000+200);
+    setTimeout(done,12000);
+  }
+  function chk(){tk=0;
+    var v=port.getBoundingClientRect().top<innerHeight*.6,g=v&&ready;
+    document.body.classList.toggle('inport',v);if(v&&!loading)load();s1.classList.toggle('off',v);
+    c1.to(!v);c2.to(g);if(g&&!started)start();
+    if(g!==vis){vis=g;clearTimeout(wakeT);
+      if(g){if(!phone)wakeT=setTimeout(function(){if(vis){awake=true;post()}},ON_SEC*1000*.85)}
+      else{awake=false;post()}}}
+  if(!phone)addEventListener('scroll',load,{once:true,passive:true});
+  addEventListener('scroll',function(){if(!tk)tk=requestAnimationFrame(chk)},{passive:true});
+  addEventListener('resize',chk);
+  setTimeout(chk,300);
 })();
 </script>
 </body>
